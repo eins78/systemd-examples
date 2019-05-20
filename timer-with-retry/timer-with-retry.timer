@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer with Retry Service Timer. Tries to run every minute, but if it failes retries every 5 seconds (letter part is defined in service, not timer).
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+RandomizedDelaySec=0
+Persistent=true
+
+[Install]
+WantedBy=timers.target

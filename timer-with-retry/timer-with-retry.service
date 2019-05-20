@@ -1,0 +1,16 @@
+[Unit]
+Description=Timer with Retry. Checks for file /tmp/timer-ok and fails if its not present, so behaviour of this timer-service can be observed. Toggle success of this service with 'touch /tmp/timer-ok' and 'rm /tmp/timer-ok'.
+After=network.target
+
+[Service]
+# NOTE: can not use 'oneshot', see <https://github.com/systemd/systemd/issues/2582>
+#       using 'simple' is ok for us, only downside is that other services can not depend on it,
+#       which is not a problem for cron-like timers.
+#Type=oneshot
+Type=simple
+ExecStart=/bin/bash -c 'ls /tmp/timer-ok'
+Restart=on-failure
+RestartSec=5sec
+
+[Install]
+WantedBy=multi-user.target
